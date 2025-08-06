@@ -1,0 +1,77 @@
+.header{
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+}
+
+.logo > img{
+  width: 200px;
+  height: 100px;
+}
+
+.navbar{
+  padding: 0px 20px;
+}
+
+.navbar > ul {
+  display: flex;
+  list-style-type: none;
+}
+
+.navbar > ul > li {
+  font-size: 24px;
+  padding: 10px;
+  margin: 10px;
+}
+.shimmer-container{
+  display: flex;
+  flex-wrap: wrap;
+}
+.shimmer-card{
+  width:200px;
+  height: 400px;
+  margin: 5px;
+  padding: 5px;
+  background-color: #e6e4e4e8;
+}
+.link{
+  position: relative;
+  display: flex;
+  text-decoration: none;
+  color: #110f0f;
+  font-weight: 700;
+}
+
+.restContainer{
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: space-between; */
+}
+
+.res-Card{
+  /* flex: 0 1 200px; */
+  margin: 5px;
+  width: 200px;
+  padding: 5px;
+  background-color: #e6e4e4e8;
+}
+
+.res-Card:hover{
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.searchBar{
+  padding: 10px;
+}
+
+.res-logo{
+  width: 100%;
+  height: 150px;
+}
+
+.user-info{
+  margin: 5px;
+  padding: 10px;
+  border: 1px solid black;
+}
