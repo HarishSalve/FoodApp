@@ -1,48 +1,65 @@
-import { useState, useEffect } from "react"
-import Shimmer from "./Shimmer"
-import { useParams } from "react-router-dom"
+import ShimmerMenu from "./ShimmerMenu";
+import { useParams } from "react-router-dom";
+import useRestaurantMenu from "../utils/useRestaurantMenu";
+import { CDN_URL } from "../utils/constants";
 
 const RestaurantMenu = () => {
+  const { resId } = useParams();
+  const restInfo = useRestaurantMenu(resId);
 
-    const [restInfo, setRestInfo] = useState(null)
-    const { resId } = useParams()
-    useEffect(() => {
-        fetchRestaurant()
-    }, [])
+  if (!restInfo) return <ShimmerMenu />;
 
-    const fetchRestaurant = async () => {
-        const data = await fetch('https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=18.4914883&lng=73.82172899999999&restaurantId=' + resId)
-        const restObj = await data.json()
-        setRestInfo(restObj)
-        console.log(restObj)
-    }
+  const { name, avgRatingString, cuisines, costForTwoMessage, areaName } =
+    restInfo?.data?.cards[2]?.card?.card?.info;
 
-    if (!restInfo) return <Shimmer />
+  const itemCards =
+    restInfo?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card
+      ?.card?.itemCards;
 
-    const { name, avgRatingString, cuisines, costForTwoMessage, areaName } = restInfo?.data?.cards[0]?.card?.card?.info
+  return (
+    <>
+      <div className="m-5 flex flex-col items-center">
+        <h2 className="font-bold text-lg">{name}</h2>
+        <ul className="p-3 border border-gray-300 w-[800px] my-2.5 rounded-md">
+          <li>
+            <h3>
+              {cuisines.join(", ")} - Rs. {costForTwoMessage}
+            </h3>
+          </li>
+          <li>
+            <h3>{areaName}</h3>
+          </li>
+          <li>
+            <h3>Rating - {avgRatingString}</h3>
+          </li>
+        </ul>
+        <h2 className="font-bold">{"--- Menu ---"}</h2>
+        <ul>
+          <h2 className="font-bold">{`Recommended: (${itemCards?.length})`}</h2>
+          {itemCards?.map((item) => (
+            <div key={item?.card?.info.id}>
+              <div className="flex w-[800px] justify-between items-center m-2.5 p-4">
+                <div className="">
+                  <h3 className="font-bold">{item.card?.info.name}</h3>
+                  <p>
+                    {(item.card?.info.price ?? item.card?.info.defaultPrice)/100} Rs.
+                  </p>
+                   <p>Rating -  {item.card?.info?.ratings?.aggregatedRating?.rating}</p>
+                   <p>{item.card?.info.cuisines}</p>
+                </div>
+                <img
+                  src={CDN_URL + item.card?.info.imageId}
+                  className="w-[200px] h-[200px] rounded-md"
+                  alt="menu_logo"
+                />
+              </div>
+              <div className="border-b w-[800px]"/>
+            </div>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
+};
 
-    const itemCards = restInfo?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card?.card?.itemCards
-    return (
-        <>
-            <div>
-                <h2>{name}</h2>
-                <ul>
-                    <li><h3>{cuisines.join(', ')} - Rs. {costForTwoMessage}</h3></li>
-                    <li><h3>{areaName}</h3></li>
-                    <li><h3>{avgRatingString}</h3></li>
-                </ul>
-                <ul>
-                    {itemCards?.map((item) => (
-                        <div key={item?.card?.info.id}>
-                            <li>{item.card?.info.name}</li>
-                            <p>Rs. - {item.card?.info.price ?? item.card?.info.defaultPrice}</p>
-                        </div>
-                    ))}
-                </ul>
-
-            </div >
-        </>
-    )
-}
-
-export default RestaurantMenu
+export default RestaurantMenu;
