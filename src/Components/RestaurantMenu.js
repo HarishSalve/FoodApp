@@ -42,10 +42,18 @@ const RestaurantMenu = () => {
                 <div className="">
                   <h3 className="font-bold">{item.card?.info.name}</h3>
                   <p>
-                    {(item.card?.info.price ?? item.card?.info.defaultPrice)/100} Rs.
+                    {(item.card?.info.price ?? item.card?.info.defaultPrice) /
+                      100}
+                    Rs.
                   </p>
-                   <p>Rating -  {item.card?.info?.ratings?.aggregatedRating?.rating}</p>
-                   <p>{item.card?.info.cuisines}</p>
+                  <p>
+                    Rating -
+                    {item.card?.info?.ratings?.aggregatedRating?.rating}
+                  </p>
+                  <p>{item.card?.info.cuisines}</p>
+                  <p className="font-extralight font-serif italic text-ellipsis w-[600px] ">
+                    {item.card?.info.description}
+                  </p>
                 </div>
                 <img
                   src={CDN_URL + item.card?.info.imageId}
@@ -53,7 +61,7 @@ const RestaurantMenu = () => {
                   alt="menu_logo"
                 />
               </div>
-              <div className="border-b w-[800px]"/>
+              <div className="border-b w-[800px]" />
             </div>
           ))}
         </ul>

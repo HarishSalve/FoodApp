@@ -29,4 +29,16 @@ const RestaurantCard = (props) => {
     </div>
   );
 };
+
 export default RestaurantCard;
+
+export const withNewOnboardLabel = (RestaurantMenu) => {
+  return function newLabel(props) {
+    return (
+      <div>
+        <label className="absolute bg-pink-300 mx-2 p-1 rounded-md font-serif">New</label>
+        <RestaurantMenu {...props} />
+      </div>
+    );
+  };
+};

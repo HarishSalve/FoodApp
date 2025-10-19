@@ -1,4 +1,4 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { withNewOnboardLabel } from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
@@ -15,6 +15,8 @@ const Body = () => {
   } = useRestaurantCards();
 
   const isOnline = useOnlineStatus();
+
+  const RestaurantCardWithNewLabel = withNewOnboardLabel(RestaurantCard);
 
   console.log(listOfRestData);
 
@@ -60,7 +62,11 @@ const Body = () => {
         {filteredRestaurant?.map((restaurant) => (
           <div key={restaurant.info.id}>
             <Link to={"/restaurant/" + restaurant.info.id} className="link">
-              <RestaurantCard resData={restaurant} />
+              {restaurant?.info?.isNewlyOnboarded ? (
+                <RestaurantCardWithNewLabel resData={restaurant} />
+              ) : (
+                <RestaurantCard resData={restaurant} />
+              )}
             </Link>
           </div>
         ))}
