@@ -1,12 +1,16 @@
 import { Link } from "react-router-dom";
 import { LOGO_URL } from "../utils/constants";
-import { useState } from "react";
-import useOnlineStatus  from "../utils/useOnlineStatus"
+import { useState, useContext } from "react";
+import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/userContext";
 
 const Header = () => {
   const [userInOut, setUserInOut] = useState("LogIn");
 
   const isOnline = useOnlineStatus();
+
+  const { loggedInUser } = useContext(UserContext);
+
   return (
     <div className="flex justify-between items-center bg-pink-50 shadow-lg px-10">
       <div className="w-[180px]">
@@ -18,19 +22,27 @@ const Header = () => {
             Online Status : {isOnline ? "✅" : "🔴"}
           </li>
           <li className="font-size-24 font-bold m-2.5">
-            <Link to="/" > Home </Link>
+            <Link to="/"> Home </Link>
           </li>
           <li className="font-size-24 font-bold  m-2.5">
-            <Link to="/about" className="link">About us</Link>
+            <Link to="/about" className="link">
+              About us
+            </Link>
           </li>
           <li className="font-size-24 font-bold m-2.5">
-            <Link to="/contact" className="link">Contact us</Link>
-          </li>
-           <li className="font-size-24 font-bold m-2.5">
-            <Link to="/grocery" className="link">Grocery</Link>
+            <Link to="/contact" className="link">
+              Contact us
+            </Link>
           </li>
           <li className="font-size-24 font-bold m-2.5">
-            <Link to="/cart" className="link"> Cart </Link>
+            <Link to="/grocery" className="link">
+              Grocery
+            </Link>
+          </li>
+          <li className="font-size-24 font-bold m-2.5">
+            <Link to="/cart" className="link">
+              Cart
+            </Link>
           </li>
           <button
             className="font-size-20 font-bold"
@@ -42,6 +54,7 @@ const Header = () => {
           >
             {userInOut}
           </button>
+          <li className="font-size-24 font-bold m-2.5">{loggedInUser}</li>
         </ul>
       </div>
     </div>

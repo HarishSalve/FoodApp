@@ -1,20 +1,29 @@
 import ShimmerMenu from "./ShimmerMenu";
 import { useParams } from "react-router-dom";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
-import { CDN_URL } from "../utils/constants";
+import RestaurantCategory from "./RestaurantCategory";
+import { useState } from "react";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
+  const [showIndex, setShowIndex] = useState(0);
   const restInfo = useRestaurantMenu(resId);
 
   if (!restInfo) return <ShimmerMenu />;
 
   const { name, avgRatingString, cuisines, costForTwoMessage, areaName } =
-    restInfo?.data?.cards[2]?.card?.card?.info;
+    restInfo?.data?.cards[0]?.card?.card?.info;
 
-  const itemCards =
-    restInfo?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card
-      ?.card?.itemCards;
+  const menuData =
+    restInfo?.data?.cards[1]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
+
+  const handleExpand = (index) => {
+    if (showIndex === index) {
+      setShowIndex(-1);
+    } else {
+      setShowIndex(index);
+    }
+  };
 
   return (
     <>
@@ -34,37 +43,14 @@ const RestaurantMenu = () => {
           </li>
         </ul>
         <h2 className="font-bold">{"--- Menu ---"}</h2>
-        <ul>
-          <h2 className="font-bold">{`Recommended: (${itemCards?.length})`}</h2>
-          {itemCards?.map((item) => (
-            <div key={item?.card?.info.id}>
-              <div className="flex w-[800px] justify-between items-center m-2.5 p-4">
-                <div className="">
-                  <h3 className="font-bold">{item.card?.info.name}</h3>
-                  <p>
-                    {(item.card?.info.price ?? item.card?.info.defaultPrice) /
-                      100}
-                    Rs.
-                  </p>
-                  <p>
-                    Rating -
-                    {item.card?.info?.ratings?.aggregatedRating?.rating}
-                  </p>
-                  <p>{item.card?.info.cuisines}</p>
-                  <p className="font-extralight font-serif italic text-ellipsis w-[600px] ">
-                    {item.card?.info.description}
-                  </p>
-                </div>
-                <img
-                  src={CDN_URL + item.card?.info.imageId}
-                  className="w-[200px] h-[200px] rounded-md"
-                  alt="menu_logo"
-                />
-              </div>
-              <div className="border-b w-[800px]" />
-            </div>
-          ))}
-        </ul>
+        {menuData?.map((menu, index) => (
+          <RestaurantCategory
+            menu={menu}
+            index={index}
+            expanded={index === showIndex ? true : false}
+            setShowIndex={() => handleExpand(index)}
+          />
+        ))}
       </div>
     </>
   );

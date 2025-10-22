@@ -13,6 +13,8 @@ import AboutUs from "./Components/AboutUs";
 import ContactUs from "./Components/ContactUs";
 import ErrorPage from "./Components/ErrorPage";
 import RestaurantMenu from "./Components/RestaurantMenu";
+import { useEffect, useState } from "react";
+import UserContext from "./utils/userContext";
 
 // React Without JSX using React.createElement
 // const heading1 = React.createElement("h1", {id: 'title'}, "I am an h1 tag")
@@ -28,10 +30,21 @@ import RestaurantMenu from "./Components/RestaurantMenu";
 const LazyGrocery = lazy(() => import("./Components//Grocery"));
 
 const AppLayOut = () => {
+  const [userName, setUserName] = useState();
+
+  useEffect(() => {
+    const data = {
+      name: "Harish Salve",
+    };
+    setUserName(data.name);
+  }, []);
+
   return (
     <div className="App">
-      <Header />
-      <Outlet />
+      <UserContext.Provider value={{ loggedInUser: userName, setUserName }}>
+        <Header />
+        <Outlet />
+      </UserContext.Provider>
     </div>
   );
 };
@@ -64,6 +77,10 @@ const appRoutes = createBrowserRouter([
       {
         path: "/restaurant/:resId",
         element: <RestaurantMenu />,
+      },
+      {
+        path: "/cart",
+        element: <AboutUs />,
       },
     ],
     errorElement: <ErrorPage />,

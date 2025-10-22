@@ -3,6 +3,8 @@ import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import useRestaurantCards from "../utils/useRestaurantCards";
+import UserContext from "../utils/userContext";
+import { useContext } from "react";
 
 const Body = () => {
   const {
@@ -18,7 +20,7 @@ const Body = () => {
 
   const RestaurantCardWithNewLabel = withNewOnboardLabel(RestaurantCard);
 
-  console.log(listOfRestData);
+  const { loggedInUser, setUserName } = useContext(UserContext);
 
   if (!isOnline) {
     return (
@@ -57,6 +59,12 @@ const Body = () => {
         >
           Top Restaurants
         </button>
+        <label>User Name:</label>
+        <input
+          className="border rounded-md p-1 h-[30px] mr-2 border-grey-300"
+          value={loggedInUser}
+          onChange={(e) => setUserName(e.target.value)}
+        />
       </div>
       <div className="flex flex-wrap gap-2.5 m-2.5">
         {filteredRestaurant?.map((restaurant) => (
