@@ -59,9 +59,9 @@ const Body = () => {
         >
           Top Restaurants
         </button>
-        <label>User Name:</label>
+        <label>User Name: </label>
         <input
-          className="border rounded-md p-1 h-[30px] mr-2 border-grey-300"
+          className="border rounded-md p-1 h-[30px] mx-2 border-grey-300"
           value={loggedInUser}
           onChange={(e) => setUserName(e.target.value)}
         />

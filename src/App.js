@@ -15,6 +15,9 @@ import ErrorPage from "./Components/ErrorPage";
 import RestaurantMenu from "./Components/RestaurantMenu";
 import { useEffect, useState } from "react";
 import UserContext from "./utils/userContext";
+import { Provider } from "react-redux";
+import store from "./store/store";
+import Cart from "./Components/Cart";
 
 // React Without JSX using React.createElement
 // const heading1 = React.createElement("h1", {id: 'title'}, "I am an h1 tag")
@@ -41,10 +44,12 @@ const AppLayOut = () => {
 
   return (
     <div className="App">
-      <UserContext.Provider value={{ loggedInUser: userName, setUserName }}>
-        <Header />
-        <Outlet />
-      </UserContext.Provider>
+      <Provider store={store}>
+        <UserContext.Provider value={{ loggedInUser: userName, setUserName }}>
+          <Header />
+          <Outlet />
+        </UserContext.Provider>
+      </Provider>
     </div>
   );
 };
@@ -80,7 +85,7 @@ const appRoutes = createBrowserRouter([
       },
       {
         path: "/cart",
-        element: <AboutUs />,
+        element: <Cart />,
       },
     ],
     errorElement: <ErrorPage />,

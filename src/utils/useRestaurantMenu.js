@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { MENU_API_URL } from "./constants";
-import { MENU_DATA } from "../utils/mockData";
 
 const useRestaurantMenu = (resId) => {
   const [restInfo, setRestInfo] = useState(null);
@@ -16,7 +15,6 @@ const useRestaurantMenu = (resId) => {
       setRestInfo(json);
     } catch (error) {
       console.error("Error fetching restaurant menu data:", error);
-      setRestInfo(MENU_DATA);
     }
   };
   return restInfo;

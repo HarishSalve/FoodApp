@@ -12,10 +12,10 @@ const RestaurantMenu = () => {
   if (!restInfo) return <ShimmerMenu />;
 
   const { name, avgRatingString, cuisines, costForTwoMessage, areaName } =
-    restInfo?.data?.cards[0]?.card?.card?.info;
+    restInfo?.data?.cards[2]?.card?.card?.info;
 
   const menuData =
-    restInfo?.data?.cards[1]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
+    restInfo?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
 
   const handleExpand = (index) => {
     if (showIndex === index) {
@@ -43,14 +43,18 @@ const RestaurantMenu = () => {
           </li>
         </ul>
         <h2 className="font-bold">{"--- Menu ---"}</h2>
-        {menuData?.map((menu, index) => (
-          <RestaurantCategory
-            menu={menu}
-            index={index}
-            expanded={index === showIndex ? true : false}
-            setShowIndex={() => handleExpand(index)}
-          />
-        ))}
+        {menuData?.map(
+          (menu, index) =>
+            Object.values(menu)?.length > 0 && (
+              <RestaurantCategory
+                menu={menu}
+                index={index}
+                key={menu?.card?.card?.title}
+                expanded={index === showIndex ? true : false}
+                setShowIndex={() => handleExpand(index)}
+              />
+            )
+        )}
       </div>
     </>
   );

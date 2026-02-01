@@ -15,10 +15,12 @@ const useRestaurantCards = () => {
     const data = await fetch(FETCH_RESTAURANTS_URL);
     const json = await data.json();
     setListOfRestData(
-      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      json?.data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+        ?.restaurants
     );
     setFilteredRestaurant(
-      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      json?.data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+        ?.restaurants
     );
   };
 
@@ -42,7 +44,7 @@ const useRestaurantCards = () => {
     searchText,
     handleTopRestaurants,
     handleSearch,
-    setSearchText
+    setSearchText,
   };
 };
 

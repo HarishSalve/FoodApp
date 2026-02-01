@@ -14,12 +14,9 @@ const RestaurantCategory = ({ menu, expanded, setShowIndex }) => {
     >
       <div className="flex justify-between" onClick={handleExpanded}>
         <h2 className="font-bold">{`${menu?.card?.card?.title} : (${menu?.card?.card?.itemCards?.length})`}</h2>
-        <img
-          src={DownArrow}
-          className={`w-6 h-6 ${expanded ? "rotate-180" : ""}`}
-        />
+        <span className={`w-6 h-6 ${expanded ? "rotate-180" : ""}`}> ⬇️</span>
       </div>
-      {expanded && <ItemsLists menuData={menu?.card?.card} />}
+      {expanded && <ItemsLists menuData={menu?.card?.card?.itemCards} />}
     </div>
   );
 };
